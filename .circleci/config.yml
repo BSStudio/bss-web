@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build-docker:
+  build:
     working_directory: /app
     docker:
       - image: docker:git
@@ -10,8 +10,6 @@ jobs:
       - restore_cache:
           keys:
             - v1-{{ .Branch }}
-          paths:
-            - /caches/app.tar
       - run:
           name: Load Docker image layer cache
           command: |
