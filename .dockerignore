@@ -1,4 +1,5 @@
 .angular/cache/
+.circleci/
 node_modules/
 .idea/
 .git/
