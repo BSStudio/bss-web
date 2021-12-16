@@ -1,11 +1,13 @@
 FROM node:16-alpine
 
-WORKDIR /home/node/app
+USER node:node
+WORKDIR /home/node
 
-COPY ./package*.json ./
-RUN npm install
+COPY --chown=node ./package*.json ./
+ARG INSTALL_ARGS="--no-fund --no-audit"
+RUN npm clean-install $INSTALL_ARGS
 
-COPY ./ ./
+COPY --chown=node ./ ./
 RUN npm run build:ssr
 
 EXPOSE 4000
