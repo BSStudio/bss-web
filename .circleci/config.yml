@@ -49,7 +49,10 @@ jobs:
             - node_modules
       - run:
           name: Testing
-          command: npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+          command: npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI --reporters=junit
+      - store_test_results:
+          name: Store test results
+          path: ~/project/reports
 workflows:
   version: 2
   build_and_test:
