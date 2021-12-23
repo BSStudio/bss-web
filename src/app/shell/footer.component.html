@@ -1,0 +1,28 @@
+<footer>
+  <div class="contact-us">
+    <h6>{{ contactUsText }}:</h6>
+    <ul>
+      <li><a [href]="facebook.url" [title]="facebook.title">Facebook</a></li>
+      <li><a [href]="instagram.url" [title]="instagram.title">Instagram</a></li>
+      <li>
+        <strong>Email: </strong>
+        <a *ngIf="!isEmailShown" (click)="showEmail()" [title]="showEmailTitle">Show email</a>
+        <a *ngIf="isEmailShown" [href]="'mailto:' + emailAddress">{{ emailAddress }}</a>
+      </li>
+      <li>
+        <strong>Címünk: </strong>
+        <span>Budavári Schönherz Stúdió</span>
+        <span>1117 Budapest, Irinyi József utca 42. I. emelet 106.</span>
+      </li>
+    </ul>
+  </div>
+  <hr class="divider">
+  <div class="advocates">
+    <h6>{{ advocatesText }}:</h6>
+    <ul>
+      <li *ngFor="let advocate of advocates">
+        <a [href]="advocate.url" [title]="advocate.name + ' oldala'">{{ advocate.name }}</a>
+      </li>
+    </ul>
+  </div>
+</footer>

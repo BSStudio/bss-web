@@ -1,0 +1,11 @@
+@import "~@carbon/elements/scss/layout";
+
+main {
+  section.latest {
+    display: grid;
+    grid-gap: $carbon--spacing-02;
+    grid-template:
+      repeat(auto-fill, 250px) /
+      repeat(auto-fill, 110px) ;
+  }
+}
