@@ -76,7 +76,7 @@ jobs:
   e2e:
     working_directory: ~/project
     docker:
-      - image: circleci/node:lts-browsers
+      - image: circleci/node:16-browsers
     steps:
       - checkout
       - setup_remote_docker:
@@ -84,13 +84,21 @@ jobs:
           docker_layer_caching: true
       - restore_cache:
           keys:
-            - v6-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
-            - v6-dependencies-
+            - v5-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
+            - v5-dependencies-
+      - run:
+          name: Install docker compose
+          environment:
+            COMPOSE_VERSION: v2.2.2
+          command: |
+            mkdir -p ~/.docker/cli-plugins/
+            curl -SL https://github.com/docker/compose/releases/download/$COMPOSE_VERSION/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
+            chmod +x ~/.docker/cli-plugins/docker-compose
       - run:
           name: Install dependencies for e2e test
           command: npm clean-install --workspace=e2e
       - save_cache:
-          key: v6-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          key: v5-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
       - run:
