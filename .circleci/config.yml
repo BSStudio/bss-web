@@ -73,10 +73,40 @@ jobs:
       - run:
           name: Lint project
           command: npm run lint
+  e2e:
+    working_directory: ~/project
+    docker:
+      - image: mcr.microsoft.com/playwright:focal
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.11
+          docker_layer_caching: true
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package-lock.json" }}
+            - v1-dependencies-
+      - run:
+          name: Install dependencies for e2e test
+          command: npm clean-install --workspace=e2e
+      - save_cache:
+          key: v1-dependencies-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
+      - run:
+          name: Run e2e test
+          command: npm run test --workspace=e2e -- --reporter=junit
+          environment:
+            PLAYWRIGHT_JUNIT_OUTPUT_NAME: reports/results.xml
+            DEBUG: testcontainers*
+      - store_test_results:
+          name: Store test results
+          path: ~/project/reports
 workflows:
   version: 2
   build_and_test_and_lint:
     jobs:
+      - lint
       - build
       - test
-      - lint
+      - e2e
