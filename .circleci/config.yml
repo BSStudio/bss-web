@@ -1,5 +1,25 @@
 version: 2
 jobs:
+  lint:
+    working_directory: ~/project
+    docker:
+      - image: circleci/node:16-browsers
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package-lock.json" }}
+            - v1-dependencies-
+      - run:
+          name: Install local dependencies
+          command: npm clean-install
+      - save_cache:
+          key: v1-dependencies-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
+      - run:
+          name: Lint project
+          command: npm run lint
   build:
     working_directory: ~/project
     docker:
@@ -53,26 +73,6 @@ jobs:
       - store_test_results:
           name: Store test results
           path: ~/project/reports
-  lint:
-    working_directory: ~/project
-    docker:
-      - image: circleci/node:16-browsers
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package-lock.json" }}
-            - v1-dependencies-
-      - run:
-          name: Install local dependencies
-          command: npm clean-install
-      - save_cache:
-          key: v1-dependencies-{{ checksum "package-lock.json" }}
-          paths:
-            - node_modules
-      - run:
-          name: Lint project
-          command: npm run lint
   e2e:
     working_directory: ~/project
     docker:
