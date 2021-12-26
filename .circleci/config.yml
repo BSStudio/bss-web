@@ -8,13 +8,13 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package-lock.json" }}
+            - v1-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
             - v1-dependencies-
       - run:
           name: Install local dependencies
           command: npm clean-install
       - save_cache:
-          key: v1-dependencies-{{ checksum "package-lock.json" }}
+          key: v1-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
       - run:
@@ -58,13 +58,13 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package-lock.json" }}
+            - v1-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
             - v1-dependencies-
       - run:
           name: Install local dependencies
           command: npm clean-install
       - save_cache:
-          key: v1-dependencies-{{ checksum "package-lock.json" }}
+          key: v1-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
       - run:
@@ -84,13 +84,13 @@ jobs:
           docker_layer_caching: true
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package-lock.json" }}
+            - v1-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
             - v1-dependencies-
       - run:
           name: Install dependencies for e2e test
           command: npm clean-install --workspace=e2e
       - save_cache:
-          key: v1-dependencies-{{ checksum "package-lock.json" }}
+          key: v1-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
       - run:
