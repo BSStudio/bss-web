@@ -53,7 +53,7 @@ jobs:
   test:
     working_directory: ~/project
     docker:
-      - image: circleci/node:16
+      - image: circleci/node:16-browsers
     steps:
       - checkout
       - restore_cache:
