@@ -1,0 +1,12 @@
+{
+  "name": "e2e",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "private": true,
+  "dependencies": {
+    "@playwright/test": "^1.17.1",
+    "testcontainers": "^8.1.2"
+  }
+}

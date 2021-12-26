@@ -3,7 +3,7 @@ import { DockerComposeEnvironment } from 'testcontainers';
 
 async function globalSetup(config: FullConfig) {
   const composeEnvironment = new DockerComposeEnvironment(
-    './e2e',
+    './',
     'docker-compose.yaml'
   );
   const startedDockerComposeEnvironment = await composeEnvironment.up();
