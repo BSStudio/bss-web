@@ -2,9 +2,9 @@
   "name": "e2e",
   "version": "1.0.0",
   "scripts": {
-    "pretest": "docker compose up --wait --build",
+    "pretest": "docker-compose up --wait --build",
     "test": "playwright test",
-    "posttest": "docker compose down"
+    "posttest": "docker-compose down"
   },
   "private": true,
   "dependencies": {
