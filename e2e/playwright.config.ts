@@ -1,10 +1,15 @@
 import { PlaywrightTestConfig } from '@playwright/test';
 
 const config: PlaywrightTestConfig = {
-  globalSetup: require.resolve('./env/global-setup'),
-  globalTeardown: require.resolve('./env/global-teardown'),
+  // globalSetup: require.resolve('./env/global-setup'),
+  // globalTeardown: require.resolve('./env/global-teardown'),
+  // webServer: {
+  //   command: 'docker compose up --wait --build',
+  //   port: 4100,
+  //   reuseExistingServer: true,
+  // },
   use: {
-    baseURL: 'http://localhost:4300',
+    baseURL: 'http://localhost:4100',
   },
   projects: [
     {
