@@ -76,7 +76,7 @@ jobs:
   e2e:
     working_directory: ~/project
     docker:
-      - image: mcr.microsoft.com/playwright:focal
+      - image: circleci/node:16-browsers
     steps:
       - checkout
       - setup_remote_docker:
