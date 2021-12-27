@@ -79,33 +79,13 @@ jobs:
       - image: mcr.microsoft.com/playwright:focal
     steps:
       - checkout
-      - run:
-          name: Install docker CI
-          command: |
-            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-            echo \
-              "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-              $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-            apt-get update
-            apt-get install docker-ce-cli -y
-      - run:
-          name: Install docker compose v2
-          environment:
-            COMPOSE_VERSION: v2.2.2
-          command: |
-            mkdir -p ~/.docker/cli-plugins/
-            curl -SL https://github.com/docker/compose/releases/download/$COMPOSE_VERSION/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
-            chmod +x ~/.docker/cli-plugins/docker-compose
-      - setup_remote_docker:
-          version: 20.10.11
-          docker_layer_caching: true
       - restore_cache:
           keys:
             - v5-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
             - v5-dependencies-
       - run:
-          name: Install dependencies for e2e test
-          command: npm clean-install --workspace=e2e
+          name: Install dependencies
+          command: npm clean-install
       - save_cache:
           key: v5-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
@@ -113,28 +93,11 @@ jobs:
       - run:
           name: Install browsers
           command: npx playwright install
-      - restore_cache:
-          keys:
-            - v1-docker-image-layer-{{ .Branch }}
-      - run:
-          name: Load Docker image layer cache
-          command: |
-            set +o pipefail
-            docker load -i /caches/e2e_frontend.tar | true
       - run:
           name: Run e2e test
           command: npm run test --workspace=e2e -- --reporter=junit,html
           environment:
             PLAYWRIGHT_JUNIT_OUTPUT_NAME: reports/results.xml
-      - run:
-          name: Save Docker image layer cache
-          command: |
-            mkdir -p /caches
-            docker save -o /caches/e2e_frontend.tar e2e_frontend
-      - save_cache:
-          key: v1-docker-image-{{ .Branch }}-{{ epoch }}
-          paths:
-            - /caches/app.tar
       - store_test_results:
           name: Store test results
           path: ~/project/e2e/reports
