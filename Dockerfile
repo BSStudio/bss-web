@@ -1,8 +1,8 @@
 FROM node:16-alpine as base
 
-USER node:node
+USER node
 RUN mkdir /home/node/app
-RUN chown node:node /home/node/app
+RUN chown node /home/node/app
 WORKDIR /home/node/app
 
 COPY --chown=node ./package*.json ./

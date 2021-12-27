@@ -75,16 +75,13 @@ jobs:
           path: ~/project/reports
   e2e:
     working_directory: ~/project
-    docker:
-      - image: cimg/base:stable
+    machine:
+      image: ubuntu-2004:202111-01
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 20.10.11
-          docker_layer_caching: true
       - run:
           name: Run end-to-end test
-          command: docker compose -f ./e2e/docker-compose.yaml up  --exit-code-from=e2e
+          command: docker compose -f ./e2e/docker-compose.yaml up  --exit-code-from=e2e --build
       - store_test_results:
           name: Store junit test report
           path: ~/project/e2e/reports
