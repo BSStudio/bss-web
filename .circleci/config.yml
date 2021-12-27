@@ -76,12 +76,19 @@ jobs:
   e2e:
     working_directory: ~/project
     docker:
-      - image: circleci/node:16-browsers
+      - image: mcr.microsoft.com/playwright:focal
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 20.10.11
-          docker_layer_caching: true
+      - run:
+          name: Install docker CI
+          command: |
+            apt-get update
+            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+            echo \
+              "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+              $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+            apt-get update
+            apt-get install docker-ce-cli
       - run:
           name: Install docker compose v2
           environment:
@@ -90,6 +97,9 @@ jobs:
             mkdir -p ~/.docker/cli-plugins/
             curl -SL https://github.com/docker/compose/releases/download/$COMPOSE_VERSION/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
             chmod +x ~/.docker/cli-plugins/docker-compose
+      - setup_remote_docker:
+          version: 20.10.11
+          docker_layer_caching: true
       - restore_cache:
           keys:
             - v5-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
@@ -109,7 +119,7 @@ jobs:
           command: npm run test --workspace=e2e -- --reporter=junit
           environment:
             PLAYWRIGHT_JUNIT_OUTPUT_NAME: reports/results.xml
-            DEBUG: pw:api
+            DEBUG: pw:*
       - store_test_results:
           name: Store test results
           path: ~/project/reports
