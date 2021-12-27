@@ -11,3 +11,9 @@ services:
       interval: 5s
       timeout: 5s
       retries: 3
+  e2e:
+    build:
+      context: './'
+    volumes:
+      - './reports:/home/pwuser/app/reports:w'
+      - './playwright-report:/home/pwuser/app/playwright-report:w'

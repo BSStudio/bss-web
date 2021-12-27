@@ -1,0 +1,6 @@
+playwright-report/
+reports/
+
+docker-compose.yaml
+Dockerfile
+.dockerignore
