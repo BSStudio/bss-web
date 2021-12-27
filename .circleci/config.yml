@@ -23,7 +23,7 @@ jobs:
   build:
     working_directory: ~/project
     docker:
-      - image: docker:20.10.11-git
+      - image: cimg/base:stable
     steps:
       - checkout
       - setup_remote_docker:
@@ -31,7 +31,7 @@ jobs:
           docker_layer_caching: true
       - restore_cache:
           keys:
-            - v1-{{ .Branch }}
+            - v2-{{ .Branch }}
       - run:
           name: Load Docker image layer cache
           command: |
@@ -47,7 +47,7 @@ jobs:
             mkdir -p /caches
             docker save -o /caches/app.tar app
       - save_cache:
-          key: v1-{{ .Branch }}-{{ epoch }}
+          key: v2-{{ .Branch }}-{{ epoch }}
           paths:
             - /caches/app.tar
   test:

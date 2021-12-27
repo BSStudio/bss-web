@@ -17,5 +17,5 @@ services:
     depends_on:
       - frontend
     volumes:
-      - './reports:/home/pwuser/app/reports:w'
-      - './playwright-report:/home/pwuser/app/playwright-report:w'
+      - './reports:/home/pwuser/app/reports'
+      - './playwright-report:/home/pwuser/app/playwright-report'
