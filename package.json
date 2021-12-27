@@ -1,6 +1,7 @@
 {
   "name": "bss-web",
   "version": "0.0.0",
+  "workspaces": ["e2e"],
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

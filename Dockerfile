@@ -17,5 +17,7 @@ RUN npm run build:ssr
 
 FROM base as app
 COPY --from=build --chown=node /home/node/app/dist ./dist
+HEALTHCHECK --interval=5s --timeout=5s --retries=3 \
+    CMD wget -nv -t1 --spider 'http://localhost:4000/health' || exit 1
 EXPOSE 4000
-ENTRYPOINT npm run serve:ssr
+ENTRYPOINT ["npm", "run", "serve:ssr"]
