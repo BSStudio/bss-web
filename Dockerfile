@@ -6,11 +6,11 @@ RUN chown node:node /home/node/app
 WORKDIR /home/node/app
 
 COPY --chown=node ./package*.json ./
-ARG INSTALL_ARGS="--production --no-fund --no-audit"
+ARG INSTALL_ARGS="--production --no-fund --no-audit --loglevel warn"
 RUN npm clean-install $INSTALL_ARGS
 
 FROM base as build
-ARG INSTALL_DEV_ARGS="--no-fund --no-audit"
+ARG INSTALL_DEV_ARGS="--no-fund --no-audit --loglevel warn"
 RUN npm install $INSTALL_DEV_ARGS
 COPY --chown=node ./ ./
 RUN npm run build:ssr

@@ -7,7 +7,8 @@ WORKDIR /home/pwuser/app
 
 COPY --chown=pwuser package*.json ./
 
-RUN npm install --no-fund --no-audit
+ARG INSTALL_ARGS="--no-fund --no-audit --loglevel warn"
+RUN npm install $INSTALL_ARGS
 
 COPY --chown=pwuser ./ ./
 
