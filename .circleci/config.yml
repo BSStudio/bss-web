@@ -76,36 +76,27 @@ jobs:
   e2e:
     working_directory: ~/project
     docker:
-      - image: mcr.microsoft.com/playwright:focal
+      - image: docker:20.10.11-git
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - v5-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
-            - v5-dependencies-
       - run:
-          name: Install dependencies
-          command: npm clean-install
-      - save_cache:
-          key: v5-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
-          paths:
-            - node_modules
+          name: Install docker compose
+          command: |
+            mkdir -p ~/.docker/cli-plugins/
+            curl -SL https://github.com/docker/compose/releases/download/v2.2.2/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
+            chmod +x ~/.docker/cli-plugins/docker-compose
       - run:
-          name: Install browsers
-          command: npx playwright install
-      - run:
-          name: Run e2e test
-          command: npm run test --workspace=e2e -- --reporter=junit,html
-          environment:
-            PLAYWRIGHT_JUNIT_OUTPUT_NAME: reports/results.xml
+          name: Run end-to-end test
+          command: docker compose -f ./e2e/docker-compose.yaml up  --exit-code-from=e2e
       - store_test_results:
-          name: Store test results
+          name: Store junit test report
           path: ~/project/e2e/reports
       - store_artifacts:
+          name: Store html test report
           path: ~/project/e2e/playwright-report
 workflows:
   version: 2
-  build_and_test_and_lint:
+  all:
     jobs:
       - lint
       - build
