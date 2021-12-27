@@ -113,11 +113,28 @@ jobs:
       - run:
           name: Install browsers
           command: npx playwright install
+      - restore_cache:
+          keys:
+            - v1-docker-image-layer-{{ .Branch }}
+      - run:
+          name: Load Docker image layer cache
+          command: |
+            set +o pipefail
+            docker load -i /caches/e2e_frontend.tar | true
       - run:
           name: Run e2e test
           command: npm run test --workspace=e2e -- --reporter=junit,html
           environment:
             PLAYWRIGHT_JUNIT_OUTPUT_NAME: reports/results.xml
+      - run:
+          name: Save Docker image layer cache
+          command: |
+            mkdir -p /caches
+            docker save -o /caches/e2e_frontend.tar e2e_frontend
+      - save_cache:
+          key: v1-{{ .Branch }}-{{ epoch }}
+          paths:
+            - /caches/app.tar
       - store_test_results:
           name: Store test results
           path: ~/project/e2e/reports
