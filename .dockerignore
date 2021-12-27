@@ -1,6 +1,9 @@
 .angular/cache/
 .circleci/
-node_modules/
-.idea/
 .git/
+.idea/
+.github/
+dist/
+e2e/
+node_modules/
 reports/

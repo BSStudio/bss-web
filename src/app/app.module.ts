@@ -7,9 +7,7 @@ import { AppComponent } from './app.component';
 import {DefaultShellModule} from "./shell/default-shell.module";
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule.withServerTransition({appId: 'serverApp'}),
     AppRoutingModule,
@@ -19,6 +17,6 @@ import {DefaultShellModule} from "./shell/default-shell.module";
   exports: [
     AppComponent
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

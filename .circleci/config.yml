@@ -1,5 +1,25 @@
 version: 2
 jobs:
+  lint:
+    working_directory: ~/project
+    docker:
+      - image: circleci/node:16
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v2-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
+            - v2-dependencies-
+      - run:
+          name: Install local dependencies
+          command: npm clean-install
+      - save_cache:
+          key: v2-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
+      - run:
+          name: Lint project
+          command: npm run lint
   build:
     working_directory: ~/project
     docker:
@@ -38,13 +58,13 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package-lock.json" }}
-            - v1-dependencies-
+            - v3-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
+            - v3-dependencies-
       - run:
           name: Install local dependencies
           command: npm clean-install
       - save_cache:
-          key: v1-dependencies-{{ checksum "package-lock.json" }}
+          key: v3-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
       - run:
@@ -53,30 +73,41 @@ jobs:
       - store_test_results:
           name: Store test results
           path: ~/project/reports
-  lint:
+  e2e:
     working_directory: ~/project
     docker:
-      - image: circleci/node:16-browsers
+      - image: mcr.microsoft.com/playwright:focal
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package-lock.json" }}
-            - v1-dependencies-
+            - v5-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
+            - v5-dependencies-
       - run:
-          name: Install local dependencies
+          name: Install dependencies
           command: npm clean-install
       - save_cache:
-          key: v1-dependencies-{{ checksum "package-lock.json" }}
+          key: v5-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
       - run:
-          name: Lint project
-          command: npm run lint
+          name: Install browsers
+          command: npx playwright install
+      - run:
+          name: Run e2e test
+          command: npm run test --workspace=e2e -- --reporter=junit,html
+          environment:
+            PLAYWRIGHT_JUNIT_OUTPUT_NAME: reports/results.xml
+      - store_test_results:
+          name: Store test results
+          path: ~/project/e2e/reports
+      - store_artifacts:
+          path: ~/project/e2e/playwright-report
 workflows:
   version: 2
   build_and_test_and_lint:
     jobs:
+      - lint
       - build
       - test
-      - lint
+      - e2e
