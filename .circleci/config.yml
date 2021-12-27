@@ -132,7 +132,7 @@ jobs:
             mkdir -p /caches
             docker save -o /caches/e2e_frontend.tar e2e_frontend
       - save_cache:
-          key: v1-{{ .Branch }}-{{ epoch }}
+          key: v1-docker-image-{{ .Branch }}-{{ epoch }}
           paths:
             - /caches/app.tar
       - store_test_results:
