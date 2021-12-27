@@ -118,7 +118,6 @@ jobs:
           command: npm run test --workspace=e2e -- --reporter=junit
           environment:
             PLAYWRIGHT_JUNIT_OUTPUT_NAME: reports/results.xml
-            DEBUG: pw:*
       - store_test_results:
           name: Store test results
           path: ~/project/reports
