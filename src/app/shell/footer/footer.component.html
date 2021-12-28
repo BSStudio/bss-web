@@ -6,12 +6,8 @@
       <li><a [href]="instagram.url" [title]="instagram.title">Instagram</a></li>
       <li>
         <strong>Email: </strong>
-        <a *ngIf="!isEmailShown" (click)="showEmail()" [title]="showEmailTitle"
-          >Show email</a
-        >
-        <a *ngIf="isEmailShown" [href]="'mailto:' + emailAddress">{{
-          emailAddress
-        }}</a>
+        <a *ngIf="!isEmailShown" (click)="showEmail()" [title]="showEmailTitle">Show email</a>
+        <a *ngIf="isEmailShown" [href]="'mailto:' + emailAddress">{{ emailAddress }}</a>
       </li>
       <li>
         <strong>Címünk: </strong>
@@ -25,9 +21,7 @@
     <h6>{{ advocatesText }}:</h6>
     <ul>
       <li *ngFor="let advocate of advocates">
-        <a [href]="advocate.url" [title]="advocate.name + ' oldala'">{{
-          advocate.name
-        }}</a>
+        <a [href]="advocate.url" [title]="advocate.name + ' oldala'">{{ advocate.name }}</a>
       </li>
     </ul>
   </div>
