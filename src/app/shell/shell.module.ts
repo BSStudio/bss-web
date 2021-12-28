@@ -2,12 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { UIShellModule } from 'carbon-components-angular';
-import { DefaultShellComponent } from './default-shell.component';
-import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import { DefaultShellComponent } from './default/default-shell.component';
+import { VideoShellComponent } from './video/video-shell.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, UIShellModule],
-  declarations: [DefaultShellComponent, HeaderComponent, FooterComponent],
+  declarations: [HeaderComponent, FooterComponent, DefaultShellComponent, VideoShellComponent],
 })
-export class DefaultShellModule {}
+export class ShellModule {}

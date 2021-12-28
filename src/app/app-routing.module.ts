@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DefaultShellComponent } from './shell/default-shell.component';
+import { DefaultShellComponent } from './shell/default/default-shell.component';
 
 const routes: Routes = [
   {
