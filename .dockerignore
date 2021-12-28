@@ -3,6 +3,8 @@
 .git/
 .idea/
 .github/
+.husky/
+coverage/
 dist/
 e2e/
 node_modules/
