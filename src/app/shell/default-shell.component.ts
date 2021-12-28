@@ -1,14 +1,8 @@
-import {Component} from "@angular/core";
-import {NavigationItem} from "carbon-components-angular";
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'default-shell',
+  selector: 'app-default-shell',
   templateUrl: './default-shell.component.html',
   styleUrls: ['./default-shell.component.scss'],
 })
-export class DefaultShellComponent {
-  title = 'web';
-  navigationItems: NavigationItem[] = [
-    {title: 'Video', type: 'item'}
-  ];
-}
+export class DefaultShellComponent {}

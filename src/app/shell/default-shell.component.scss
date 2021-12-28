@@ -3,8 +3,8 @@
 #default-shell {
   padding-top: $carbon--layout-04;
   display: grid;
-  grid-template-rows: 0 1fr min-content;
-  router-outlet + ::ng-deep * {
+  grid-template-rows: 1fr min-content;
+  main {
     min-height: 100vh;
     padding: $carbon--layout-01 $carbon--layout-01;
   }
