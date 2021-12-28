@@ -12,7 +12,7 @@ jobs:
             - v2-dependencies-
       - run:
           name: Install local dependencies
-          command: npm clean-install
+          command: npm install
       - save_cache:
           key: v2-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
@@ -62,17 +62,20 @@ jobs:
             - v3-dependencies-
       - run:
           name: Install local dependencies
-          command: npm clean-install
+          command: npm install
       - save_cache:
           key: v3-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
             - node_modules
       - run:
           name: Testing
-          command: npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI --reporters=junit
+          command: npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI --reporters=junit,coverage
       - store_test_results:
           name: Store test results
           path: ~/project/reports
+      - store_artifacts:
+          name: Store covarage report
+          path: ~/project/coverage/bss-web
   e2e:
     working_directory: ~/project
     docker:
@@ -85,7 +88,7 @@ jobs:
             - v5-dependencies-
       - run:
           name: Install dependencies
-          command: npm clean-install
+          command: npm install
       - save_cache:
           key: v5-dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}
           paths:
@@ -105,7 +108,7 @@ jobs:
           path: ~/project/e2e/playwright-report
 workflows:
   version: 2
-  build_and_test_and_lint:
+  all:
     jobs:
       - lint
       - build

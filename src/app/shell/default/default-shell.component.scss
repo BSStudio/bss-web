@@ -1,0 +1,11 @@
+@import "~@carbon/elements/scss/layout";
+
+#default-shell {
+  padding-top: $carbon--layout-04;
+  display: grid;
+  grid-template-rows: 1fr min-content;
+  main {
+    min-height: 100vh;
+    padding: $carbon--layout-01 $carbon--layout-01;
+  }
+}
