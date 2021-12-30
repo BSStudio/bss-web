@@ -1,0 +1,24 @@
+@import "~@carbon/elements/scss/layout";
+#video {
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  column-gap: $carbon--layout-02;
+  aside.filter {
+    min-width: $carbon--layout-07;
+    form {
+      position: sticky;
+      top: $carbon--layout-04 + $carbon--layout-01;
+    }
+  }
+  section.video-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-gap: $carbon--spacing-04 $carbon--spacing-04;
+    .result a {
+      padding: 0;
+    }
+    figure.thumbnail picture > * {
+      max-width: 100%;
+    }
+  }
+}

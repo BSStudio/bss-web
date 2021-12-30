@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DefaultShellComponent } from './shell/default/default-shell.component';
+import { VideoSingleComponent } from './pages/video-single/video-single.component';
+import { VideoShellComponent } from './shell/video/video-shell.component';
 
 const routes: Routes = [
   {
@@ -31,9 +33,21 @@ const routes: Routes = [
         path: 'video',
         loadChildren: () => import('./pages/video/video.module').then(({ VideoModule }) => VideoModule),
       },
-      { path: 'v', redirectTo: '/video', pathMatch: 'prefix' }, // todo
     ],
   },
+  {
+    path: '',
+    component: VideoShellComponent,
+    children: [
+      {
+        path: 'video/:videoId',
+        loadChildren: () =>
+          import('./pages/video-single/video-single.module').then(({ VideoSingleModule }) => VideoSingleModule),
+      },
+    ],
+  },
+  { path: 'v', redirectTo: '/video', pathMatch: 'prefix' },
+  { path: 'v/:videoId', redirectTo: '/video/:videoId', pathMatch: 'prefix' },
 ];
 
 @NgModule({

@@ -3,17 +3,8 @@
 #video-shell {
   padding-top: $carbon--layout-04;
   display: grid;
-  grid-template-areas:
-    'content recommended'
-    'footer footer';
+  grid-template-rows: 1fr min-content;
   main {
-    grid-area: content;
     min-height: 100vh;
-  }
-  aside {
-    grid-area: recommended;
-  }
-  app-footer {
-    grid-area: footer;
   }
 }
