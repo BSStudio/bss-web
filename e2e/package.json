@@ -6,6 +6,6 @@
   },
   "private": true,
   "dependencies": {
-    "@playwright/test": "1.17.1"
+    "@playwright/test": "1.42.1"
   }
 }
